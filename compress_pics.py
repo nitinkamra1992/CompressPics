@@ -132,7 +132,7 @@ if __name__ == '__main__':
                         default=None)
     parser.add_argument('-m', '--minsize',
                         help='Minimum size of a file to compress (in bytes). \
-                            Default = 0: all files are compressed.',
+                            Default = 0.',
                         type=int, default=0)
     parser.add_argument('-rec', '--recursive',
                         help='Recursively process subdirectories if input \
