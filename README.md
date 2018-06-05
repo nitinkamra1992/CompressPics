@@ -22,18 +22,10 @@ python3 compress_pics.py <data_dir> -o <out_dir> -m 1000000 -rec -v -resize 50% 
 It supports all arguments for the imagemagick convert tool, and additionally the following arguments:
 ```
 '-d', '--data': Input file/directory
-```
-```
 '-o', '--out': Output file/directory. Default: Same as input file/directory.
-```
-```
-'-m', '--minsize': Minimum size of a file to compress (in bytes). Default = 0: all files are compressed.
-```
-```
+'-m', '--minsize': Minimum size of a file to compress (in bytes). Type = int, Default = 0: all files are compressed.
 '-rec', '--recursive': Recursively process subdirectories if input is a directory.
-```
-```
 '-v', '--verbose': Increase verbosity.
 ```
 
-Note that the tool only processes image files. All other unsupported files are copied over directly. Any file smaller than $$minsize$$ is copied over directly. If '-rec' is not specified, then all subdirectories are copied directly to the output directory.
+Note that the tool only processes image files. All other unsupported files are copied over directly. Any file smaller than `--minsize` is copied over directly. If `-rec` is not specified, all subdirectories are copied directly to the output directory.
