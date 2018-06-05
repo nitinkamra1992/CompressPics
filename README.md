@@ -17,7 +17,7 @@ sudo apt install imagemagick
 
 The tool can be run as a Python script, e.g.:
 ```
-python3 compress_pics.py <data_dir> -o <out_dir> -m 1000000 -rec -v -resize 50% -quality 50%
+python3 compress_pics.py -d <data_dir> -o <out_dir> -m 1000000 -rec -v -resize 50% -quality 50%
 ```
 It supports all arguments for the imagemagick convert tool, and additionally the following arguments:
 ```
