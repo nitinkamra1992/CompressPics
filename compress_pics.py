@@ -51,13 +51,14 @@ def compress_file(infile, outfile, minsize, cvt_args, verbose=False):
             less than minsize {}'.format(infile, insize, minsize))
         shutil.copy2(src=infile, dst=outfile)
     else:
-        vprint(verbose, 'Compressing {} into {}'.format(infile, outfile))
         if imghdr.what(infile) is not None:
             subprocess.call('convert "{}" {} "{}"'.format(infile,
                             args2str(cvt_args), outfile),
                             shell=True)
+            vprint(verbose, 'Compressed {} into {}'.format(infile, outfile))
         else:
             shutil.copy2(src=infile, dst=outfile)
+            vprint(verbose, 'Directly copied {}: Not an image file'.format(infile))
 
 
 def compress_dir(indir, outdir, minsize, recursive, cvt_args, verbose=False):
@@ -100,8 +101,6 @@ def main(args, cvt_args):
     # Process output path
     if args.out is None:
         args.out = args.data
-    if os.path.isdir(args.data):
-        create_directory(args.out)
 
     # Compress files
     if os.path.isfile(args.data):
@@ -110,8 +109,6 @@ def main(args, cvt_args):
     else:
         compress_dir(args.data, args.out, args.minsize, args.recursive,
                      cvt_args, args.verbose)
-
-    print('Successfully compressed: {} into {}'.format(args.data, args.out))
 
 
 # ############################# Entry Point ###############################
