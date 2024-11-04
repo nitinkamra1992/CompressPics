@@ -3,14 +3,19 @@
 This is an image compression tool built on top of `imagemagick convert` tool. It adds support for compressing all images in a directory (recursively), along with a minimum size constraint.
 
 ## Compatibility
-The tool has been written for Ubuntu and tested on Python v3.5 and above but may be compatible with other versions of python too.
+
+The tool has been tested on Ubuntu and Python3.5+.
 
 ## Dependencies
-The tool requires python3 (generally present by default). Also install `imagemagick`:
 
+The tool requires python3.5+. While the `imagemagick` package might be pre-installed on Ubuntu, install it if needed:
 ```
 sudo apt update
 sudo apt install imagemagick
+```
+Also, install dependencies:
+```
+pip install filetype
 ```
 
 ## Usage

@@ -1,7 +1,7 @@
 import os
 import errno
 import argparse
-import imghdr
+import filetype
 import time
 import subprocess
 import shutil
@@ -42,23 +42,21 @@ def compress_file(infile, outfile, minsize, cvt_args, verbose=False):
         outfile: Output file path (including name).
         minsize: Minimum file size to compress (in bytes). Files below
             minimum size are copied directly.
-        cvt_args: Arguments for convert imagemagick convert tool.
+        cvt_args: Arguments for convert tool.
         verbose: Verbosity. Default = False.
     '''
     insize = os.path.getsize(infile)
     if insize <= minsize:
-        vprint(verbose, 'Skipping {}: Size {} \
-            less than minsize {}'.format(infile, insize, minsize))
+        vprint(verbose, f"Skipping {infile}: Size {insize} <= {minsize}")
         shutil.copy2(src=infile, dst=outfile)
     else:
-        if imghdr.what(infile) is not None:
-            subprocess.call('convert "{}" {} "{}"'.format(infile,
-                            args2str(cvt_args), outfile),
+        if filetype.is_image(infile):
+            subprocess.call(f'convert "{infile}" {args2str(cvt_args)} "{outfile}"',
                             shell=True)
-            vprint(verbose, 'Compressed {} into {}'.format(infile, outfile))
+            vprint(verbose, f"Compressed {infile} into {outfile}")
         else:
             shutil.copy2(src=infile, dst=outfile)
-            vprint(verbose, 'Directly copied {}: Not an image file'.format(infile))
+            vprint(verbose, f"Directly copied non-image file: {infile}")
 
 
 def compress_dir(indir, outdir, minsize, recursive, cvt_args, verbose=False):
@@ -72,7 +70,7 @@ def compress_dir(indir, outdir, minsize, recursive, cvt_args, verbose=False):
             minimum size are copied directly.
         recursive: If True, subdirectories are parsed recursively, else
             they are copied.
-        cvt_args: Arguments for convert imagemagick convert tool.
+        cvt_args: Arguments for convert tool.
         verbose: Verbosity. Default = False.
     '''
     create_directory(outdir)
@@ -87,7 +85,7 @@ def compress_dir(indir, outdir, minsize, recursive, cvt_args, verbose=False):
         else:
             shutil.copytree(src=inpath, dst=outpath, symlinks=True,
                             ignore_dangling_symlinks=True)
-    vprint(verbose, 'Compressed directory {} into {}'.format(indir, outdir))
+    vprint(verbose, f"Compressed directory {indir} into {outdir}")
 
 
 def main(args, cvt_args):
@@ -95,7 +93,7 @@ def main(args, cvt_args):
 
     Args:
         args: Known argparse arguments added by this script.
-        cvt_args: Arguments for the imagemagick convert tool.
+        cvt_args: Arguments for the convert tool.
 
     '''
     # Process output path
@@ -120,7 +118,7 @@ if __name__ == '__main__':
 
     # Parse arguments
     parser = argparse.ArgumentParser(description='Compress pics using \
-        imagemagick. Excess args are passed to imagemagick.')
+        the convert tool. Excess args are passed to convert.')
     parser.add_argument('-d', '--data',
                         help='Input file/directory.')
     parser.add_argument('-o', '--out',
@@ -145,4 +143,4 @@ if __name__ == '__main__':
 
     # Final time
     t_final = time.time()
-    print('Progam finished in {} secs.'.format(t_final - t_init))
+    print(f"Progam finished in {t_final - t_init} secs.")
