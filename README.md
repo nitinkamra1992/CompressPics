@@ -2,6 +2,10 @@
 
 This is an image compression tool built on top of `imagemagick convert` tool. It adds support for compressing all images in a directory (recursively), along with a minimum size constraint.
 
+**NOTE**:
+- This repository is being archived.
+- The tool is available as a part of the Unified [CompressMedia](https://github.com/nitinkamra1992/CompressMedia) tool.
+
 ## Compatibility
 
 The tool has been tested on Ubuntu and Python3.5+.
